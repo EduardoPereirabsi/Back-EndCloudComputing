@@ -1,0 +1,26 @@
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### Eclipse / STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### VS Code ###
+.vscode/
+
+### Build ###
+target/
+build/
+out/
+
+### Sistema operacional ###
+.DS_Store
+Thumbs.db
