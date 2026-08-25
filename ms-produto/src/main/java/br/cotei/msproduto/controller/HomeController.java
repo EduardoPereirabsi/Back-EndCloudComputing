@@ -1,4 +1,4 @@
-package br.comparaai.msproduto.controller;
+package br.cotei.msproduto.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package br.comparaai.msproduto.domain;
+package br.cotei.msproduto.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

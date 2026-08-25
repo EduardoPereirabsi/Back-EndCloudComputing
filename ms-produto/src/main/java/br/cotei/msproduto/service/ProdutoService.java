@@ -1,7 +1,7 @@
-package br.comparaai.msproduto.service;
+package br.cotei.msproduto.service;
 
-import br.comparaai.msproduto.domain.Produto;
-import br.comparaai.msproduto.repository.ProdutoRepository;
+import br.cotei.msproduto.domain.Produto;
+import br.cotei.msproduto.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

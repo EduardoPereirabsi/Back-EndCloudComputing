@@ -1,7 +1,7 @@
-package br.comparaai.msproduto.controller;
+package br.cotei.msproduto.controller;
 
-import br.comparaai.msproduto.domain.Produto;
-import br.comparaai.msproduto.service.ProdutoService;
+import br.cotei.msproduto.domain.Produto;
+import br.cotei.msproduto.service.ProdutoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

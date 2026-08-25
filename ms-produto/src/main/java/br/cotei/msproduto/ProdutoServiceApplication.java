@@ -1,4 +1,4 @@
-package br.comparaai.msproduto;
+package br.cotei.msproduto;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

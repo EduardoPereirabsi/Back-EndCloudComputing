@@ -8,11 +8,11 @@
 		<version>4.1.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.comparaai</groupId>
+	<groupId>br.cotei</groupId>
 	<artifactId>ms-produto</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ms-produto</name>
-	<description>Microsservico de catalogo de produtos - ComparaAi</description>
+	<description>Microsservico de catalogo de produtos - Cotei</description>
 	<url/>
 	<licenses>
 		<license/>

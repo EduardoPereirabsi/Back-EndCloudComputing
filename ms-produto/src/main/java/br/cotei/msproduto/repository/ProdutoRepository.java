@@ -1,6 +1,6 @@
-package br.comparaai.msproduto.repository;
+package br.cotei.msproduto.repository;
 
-import br.comparaai.msproduto.domain.Produto;
+import br.cotei.msproduto.domain.Produto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
