@@ -1,0 +1,47 @@
+### Health Check Java
+GET http://localhost:8081/health
+
+### Health Check Csharp
+GET http://localhost:8082/health
+
+### Health Check Python
+GET http://localhost:8083/health
+
+### Health Check TypeScript
+GET http://localhost:8084/health
+
+### Java (MySQL)
+POST http://localhost:8081/messages
+Content-Type: application/json
+
+{ "text": "Olá do Java" }
+
+###
+GET http://localhost:8081/messages
+
+### C# (SQL Server)
+POST http://localhost:8082/messages
+Content-Type: application/json
+
+{ "text": "Olá do CSharp" }
+
+###
+GET http://localhost:8082/messages
+
+### Python (Postgres)
+POST http://localhost:8083/messages
+Content-Type: application/json
+
+{ "text": "Olá do Python" }
+
+###
+GET http://localhost:8083/messages
+
+### TS (Mongo)
+POST http://localhost:8084/messages
+Content-Type: application/json
+
+{ "text": "Olá do TypeScript" }
+
+###
+GET http://localhost:8084/messages

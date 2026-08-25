@@ -1,0 +1,58 @@
+services:
+  ms-java:
+    build:
+      context: ../services/java
+    container_name: ms-java
+    environment:
+      - SERVICE_NAME=ms-java
+      - PORT=8080
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/messages?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    ports:
+      - "8081:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  ms-csharp:
+    build:
+      context: ../services/csharp
+    container_name: ms-csharp
+    environment:
+      - SERVICE_NAME=ms-csharp
+      - ASPNETCORE_URLS=http://0.0.0.0:8080
+      - ConnectionStrings__Default=Server=sqlserver,1433;Database=messages;User ID=sa;Password=YourStrong!Passw0rd;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30
+    ports:
+      - "8082:8080"
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+
+  ms-python:
+    build:
+      context: ../services/python
+    container_name: ms-python
+    environment:
+      - SERVICE_NAME=ms-python
+      - PORT=8080
+      - DB_URL=postgresql://postgres:postgres@postgres:5432/messages
+    ports:
+      - "8083:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  ms-typescript:
+    build:
+      context: ../services/typescript
+    container_name: ms-typescript
+    environment:
+      - SERVICE_NAME=ms-typescript
+      - PORT=8080
+      - DB_URL=mongodb://mongo:27017/messages
+    ports:
+      - "8084:8080"
+    depends_on:
+      mongo:
+        condition: service_healthy
