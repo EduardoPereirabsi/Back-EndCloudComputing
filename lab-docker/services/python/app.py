@@ -1,8 +1,10 @@
 # services/python/app.py
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from pydantic import BaseModel
 from sqlalchemy import create_engine, text
 import socket, os
+
+from auth import require_auth
 
 app = FastAPI()
 SERVICE_NAME = "ms-python"
@@ -23,7 +25,7 @@ def list_messages():
         return [dict(r) for r in rows]
 
 @app.post("/messages", status_code=201)
-def create_message(msg: MsgIn):
+def create_message(msg: MsgIn, user=Depends(require_auth)):
     with engine.begin() as conn:
         row = conn.execute(text("INSERT INTO messages(text) VALUES (:t) RETURNING id"), {"t": msg.text}).fetchone()
         return {"id": row.id, "text": msg.text}

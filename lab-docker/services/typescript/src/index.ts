@@ -2,6 +2,7 @@
 import express from "express";
 import os from "os";
 import mongoose from "mongoose";
+import { requireAuth } from "./auth.js";
 
 const app = express();
 app.use(express.json());
@@ -21,7 +22,7 @@ app.get("/messages", async (_req, res) => {
   res.json(list);
 });
 
-app.post("/messages", async (req, res) => {
+app.post("/messages", requireAuth, async (req, res) => {
   const created = await Message.create({ text: req.body?.text ?? "" });
   res.status(201).json(created);
 });

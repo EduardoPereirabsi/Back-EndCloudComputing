@@ -9,6 +9,9 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/messages?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
+      - OIDC_ISSUER=http://localhost:8080/realms/lab
+      - OIDC_JWKS=http://keycloak:8080/realms/lab/protocol/openid-connect/certs
+      - OIDC_AUDIENCE=lab-api
     ports:
       - "8081:8080"
     depends_on:
@@ -23,6 +26,9 @@ services:
       - SERVICE_NAME=ms-csharp
       - ASPNETCORE_URLS=http://0.0.0.0:8080
       - ConnectionStrings__Default=Server=sqlserver,1433;Database=messages;User ID=sa;Password=YourStrong!Passw0rd;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30
+      - OIDC_ISSUER=http://localhost:8080/realms/lab
+      - OIDC_METADATA=http://keycloak:8080/realms/lab/.well-known/openid-configuration
+      - OIDC_AUDIENCE=lab-api
     ports:
       - "8082:8080"
     depends_on:
@@ -37,6 +43,9 @@ services:
       - SERVICE_NAME=ms-python
       - PORT=8080
       - DB_URL=postgresql://postgres:postgres@postgres:5432/messages
+      - OIDC_ISSUER=http://localhost:8080/realms/lab
+      - OIDC_JWKS=http://keycloak:8080/realms/lab/protocol/openid-connect/certs
+      - OIDC_AUDIENCE=lab-api
     ports:
       - "8083:8080"
     depends_on:
@@ -51,6 +60,9 @@ services:
       - SERVICE_NAME=ms-typescript
       - PORT=8080
       - DB_URL=mongodb://mongo:27017/messages
+      - OIDC_ISSUER=http://localhost:8080/realms/lab
+      - OIDC_JWKS=http://keycloak:8080/realms/lab/protocol/openid-connect/certs
+      - OIDC_AUDIENCE=lab-api
     ports:
       - "8084:8080"
     depends_on:

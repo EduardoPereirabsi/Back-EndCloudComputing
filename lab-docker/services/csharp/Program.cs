@@ -1,6 +1,8 @@
 // services/csharp/Program.cs
 using System.Net;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,28 @@ string connDefault =
     builder.Configuration.GetConnectionString("Default")
     ?? Environment.GetEnvironmentVariable("DB_CONN")
     ?? "Server=sqlserver,1433;Database=messages;User Id=sa;Password=YourStrong!Passw0rd;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30";
+
+// issuer = como o token foi emitido (localhost, fora da rede Docker)
+// metadata = onde buscar a configuracao/chaves (nome interno do container)
+string issuer = Environment.GetEnvironmentVariable("OIDC_ISSUER") ?? "http://localhost:8080/realms/lab";
+string audience = Environment.GetEnvironmentVariable("OIDC_AUDIENCE") ?? "lab-api";
+string metadata = Environment.GetEnvironmentVariable("OIDC_METADATA")
+    ?? "http://keycloak:8080/realms/lab/.well-known/openid-configuration";
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+  .AddJwtBearer(options =>
+  {
+      options.MetadataAddress = metadata;
+      options.RequireHttpsMetadata = false; // ambiente de lab
+      options.TokenValidationParameters = new TokenValidationParameters
+      {
+          ValidateAudience = true,
+          ValidAudience = audience,
+          ValidateIssuer = true,
+          ValidIssuer = issuer
+      };
+  });
+builder.Services.AddAuthorization();
 
 // troca Database/Initial Catalog por 'master'
 string ToMaster(string cs)
@@ -49,6 +73,9 @@ await EnsureDatabaseAndTableAsync();
 
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapGet("/health", () => Results.Json(new { status = "ok", service, hostname = Dns.GetHostName() }));
 
 app.MapGet("/messages", async () =>
@@ -74,6 +101,6 @@ app.MapPost("/messages", async (HttpRequest req) =>
     cmd.Parameters.AddWithValue("@t", text);
     var id = (int)await cmd.ExecuteScalarAsync();
     return Results.Json(new { id, text }, statusCode: 201);
-});
+}).RequireAuthorization();
 
 app.Run("http://0.0.0.0:8080");
