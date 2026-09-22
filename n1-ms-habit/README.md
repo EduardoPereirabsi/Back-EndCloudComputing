@@ -50,13 +50,13 @@ Bancos separados (cada um só tem o seu schema):
 
 Em um terminal separado, mantenha aberto:
 
-    kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 8080:80
+    kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 80:80
 
 No navegador:
 
-- Swagger do ms-habit:   http://localhost:8080/swagger-ui/index.html
-- Swagger do ms-produto: http://localhost:8080/produto/swagger-ui/index.html
-- Qual pod respondeu:    http://localhost:8080/instance
+- Swagger do ms-habit:   http://localhost/swagger-ui/index.html
+- Swagger do ms-produto: http://localhost/produto/swagger-ui/index.html
+- Qual pod respondeu:    http://localhost/instance
 
 ## Decisões de projeto
 
@@ -72,6 +72,11 @@ e `/` para o ms-habit. O ms-habit ficou na raiz de propósito: é ele que vale a
 contêiner inicia, mas a JVM ainda está subindo — e o Service manda tráfego para uma
 aplicação que ainda não escuta. Com 5 réplicas isso apareceria como requisição
 falhando durante a apresentação.
+
+**Port-forward na porta 80, nao na 8080.** O springdoc monta a URL do servidor a
+partir da requisicao. Se o navegador entra pela 8080 mas o Ingress escuta na 80, o
+Swagger gera `http://localhost/habits` e o botao Execute falha com "Failed to fetch".
+Encaminhando 80:80 as portas coincidem e o Try it out funciona.
 
 **Sem PersistentVolume.** Os bancos usam armazenamento efêmero: se o pod do MySQL
 for recriado, os dados somem. Suficiente para a avaliação, inadequado para produção.
