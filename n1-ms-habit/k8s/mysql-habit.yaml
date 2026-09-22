@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-habit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-habit
+  template:
+    metadata:
+      labels:
+        app: mysql-habit
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.4
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+            - name: MYSQL_DATABASE
+              value: habitdb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-habit
+spec:
+  selector:
+    app: mysql-habit
+  ports:
+    - port: 3306
+      targetPort: 3306

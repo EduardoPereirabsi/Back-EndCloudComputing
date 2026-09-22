@@ -1,0 +1,26 @@
+# Ingress unico do MyTracker: encaminha para os dois microsservicos.
+#   /          -> ms-habit   (Swagger em http://localhost:8080/swagger-ui/index.html)
+#   /produto   -> ms-produto (Swagger em http://localhost:8080/produto/swagger-ui/index.html)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mytracker-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /produto
+            pathType: Prefix
+            backend:
+              service:
+                name: ms-produto
+                port:
+                  number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ms-habit
+                port:
+                  number: 8081

@@ -1,39 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ms-produto
+  name: ms-habit
 spec:
-  replicas: 3
+  replicas: 5
   selector:
     matchLabels:
-      app: ms-produto
+      app: ms-habit
   template:
     metadata:
       labels:
-        app: ms-produto
+        app: ms-habit
     spec:
       containers:
-        - name: ms-produto
-          image: eduardo1112/ms-produto:1.1.0
+        - name: ms-habit
+          image: eduardo1112/ms-habit:1.0.0
           ports:
-            - containerPort: 8080
+            - containerPort: 8081
           env:
-            - name: SERVER_SERVLET_CONTEXT_PATH
-              value: /produto
             - name: DB_HOST
-              value: mysql-produto
+              value: mysql-habit
             - name: DB_PORT
               value: "3306"
             - name: DB_NAME
-              value: produtodb
+              value: habitdb
             - name: DB_USER
               value: root
             - name: DB_PASSWORD
               value: root
           readinessProbe:
             httpGet:
-              path: /produto/produtos
-              port: 8080
+              path: /habits
+              port: 8081
             initialDelaySeconds: 10
             periodSeconds: 5
             failureThreshold: 30
@@ -41,10 +39,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ms-produto
+  name: ms-habit
 spec:
   selector:
-    app: ms-produto
+    app: ms-habit
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 8081
+      targetPort: 8081
