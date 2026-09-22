@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-produto
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-produto
+  template:
+    metadata:
+      labels:
+        app: mysql-produto
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.4
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+            - name: MYSQL_DATABASE
+              value: produtodb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-produto
+spec:
+  selector:
+    app: mysql-produto
+  ports:
+    - port: 3306
+      targetPort: 3306
