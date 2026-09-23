@@ -1,6 +1,4 @@
-# Ingress unico do MyTracker: encaminha para os dois microsservicos.
-#   /          -> ms-habit   (Swagger em http://localhost:8080/swagger-ui/index.html)
-#   /produto   -> ms-produto (Swagger em http://localhost:8080/produto/swagger-ui/index.html)
+# Ingress do ms-habit: raiz -> Service ms-habit:8081
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -10,13 +8,6 @@ spec:
   rules:
     - http:
         paths:
-          - path: /produto
-            pathType: Prefix
-            backend:
-              service:
-                name: ms-produto
-                port:
-                  number: 8080
           - path: /
             pathType: Prefix
             backend:
